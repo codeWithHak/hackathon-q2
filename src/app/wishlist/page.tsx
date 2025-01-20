@@ -11,7 +11,12 @@ export default function WishlistPage() {
   const { wishlistItems, removeFromWishlist } = useWishlist();
   const { addToCart } = useCounter();
 
-  const handleAddToCart = (item) => {
+  const handleAddToCart = (item: {
+    id: string;
+    name: string;
+    price: number;
+    image: string;
+  }) => {
     addToCart({
       id: item.id,
       name: item.name,
