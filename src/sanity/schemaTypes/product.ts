@@ -74,7 +74,14 @@ const productSchema = defineType({
       title: "Stock",
       type: "number",
       description: "The number of products available in stock.",
-      validation: (Rule) => Rule.required().min(0).integer(), // Explicitly typed Rule
+      validation: (Rule) => Rule.required().min(0).integer(),
+    }),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "string" }],
+      description: "Tags associated with the product, e.g., sofa, lamp, chair.",
     }),
   ],
 });

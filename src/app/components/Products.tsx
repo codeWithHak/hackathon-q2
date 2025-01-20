@@ -3,17 +3,39 @@
 import { useState, useRef, useEffect } from "react";
 import { useCounter } from "../contexts/CartCounter";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { BarChart2, ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
 import { urlFor } from "@/sanity/lib/image";
 import { client } from "@/sanity/lib/client";
+import { useWishlist } from "../contexts/WishlistContext";
+
+interface SanityImage {
+  _type: string;
+  asset: {
+    _ref: string;
+    _type: string;
+  };
+  alt?: string;
+  hotspot?: {
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+  };
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+}
 
 interface Product {
   _id: string;
   name: string;
-  image: string;
+  image: SanityImage;
   category: string;
   price: number;
   originalPrice?: number;
@@ -31,6 +53,7 @@ export default function Products() {
   const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const { addToCart, getCartCount } = useCounter();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -98,6 +121,30 @@ export default function Products() {
     });
   };
 
+  const handleWishlistToggle = (product: Product) => {
+    if (isInWishlist(product._id)) {
+      removeFromWishlist(product._id);
+      toast.success(`${product.name} removed from wishlist`, {
+        style: {
+          background: "#B88E2F",
+          color: "#fff",
+        },
+      });
+    } else {
+      addToWishlist({
+        id: product._id,
+        name: product.name,
+        price: product.price,
+        image: urlFor(product.image).url(),
+      });
+      toast.success(`${product.name} added to wishlist`, {
+        style: {
+          background: "#B88E2F",
+          color: "#fff",
+        },
+      });
+    }
+  };
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -143,7 +190,7 @@ export default function Products() {
               >
                 <div className="relative bg-[#F4F5F7] rounded-lg overflow-hidden shadow-md transition-all duration-300 hover:shadow-lg">
                   <Image
-                    src={urlFor(product.image).url()}
+                    src={urlFor(product.image).url() || "/placeholder.svg"}
                     alt={product.name || ""}
                     width={285}
                     height={301}
@@ -165,6 +212,26 @@ export default function Products() {
                     >
                       View Product
                     </Link>
+                    <div className="flex items-center gap-4 mt-2">
+                      <button
+                        // onClick={() => handleAddToComparison(product)}
+                        className="flex items-center gap-2 text-white hover:text-[#B88E2F] transition-colors"
+                      >
+                        <BarChart2 className="w-5 h-5" />
+                        <Link href={"/comparison"}>
+                          <span>Compare</span>
+                        </Link>
+                      </button>
+                      <button
+                        onClick={() => handleWishlistToggle(product)}
+                        className="flex items-center gap-2 text-white hover:text-[#B88E2F] transition-colors"
+                      >
+                        <Heart
+                          className={`w-5 h-5 ${isInWishlist(product._id) ? "fill-current" : ""}`}
+                        />
+                        <span>Like</span>
+                      </button>
+                    </div>
                   </div>
 
                   {/* Badge */}
@@ -174,7 +241,7 @@ export default function Products() {
                         backgroundColor: product.badge.color,
                         borderRadius: "50%",
                       }}
-                      className={`absolute top-4 right-4  text-white text-sm font-bold px-2 py-3 `}
+                      className={`absolute top-4 right-4 text-white text-sm font-medium px-1 py-2`}
                     >
                       {product.badge.text}
                     </div>
