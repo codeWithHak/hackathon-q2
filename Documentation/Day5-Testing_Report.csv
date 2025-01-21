@@ -14,4 +14,3 @@ Performance,Testing website performance metrics,Speed Index should be under 4.3 
 Performance,Testing website performance metrics,Largest Contentful Paint should be under 4 seconds,Largest Contentful Paint under 4 seconds,Largest Contentful Paint at 4.6 seconds,Fail,Performance score is 83, indicating room for improvement in this area
 Accessibility,Testing website accessibility,Accessibility score should be above 90,Accessibility score above 90,Accessibility score at 88,Fail,Accessibility score is 88, indicating some areas need improvement
 Best Practices,Testing website best practices,Best Practices score should be 100,Best Practices score at 100,Best Practices score at 100,Pass,Best Practices score is perfect
-SEO,Testing SEO optimization,SEO score should be 100,SEO score at 100,SEO score at 100,Pass,SEO score is perfect
