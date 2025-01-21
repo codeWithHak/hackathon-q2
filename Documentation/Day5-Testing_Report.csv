@@ -8,3 +8,10 @@ Cart,Testing cart total,Total price of items in cart is correct,Cart total shoul
 Checkout,Testing checkout process,Checkout page loads correctly with all necessary fields,"Checkout page should load with billing, shipping, and payment fields",Checkout page loaded successfully,Pass,All necessary fields present and correctly functioning
 Mobile Responsiveness,Testing mobile responsiveness,Page layout adjusts correctly on mobile screens,Layout should be responsive on screens below 768px,Layout adjusted correctly,Pass,Tested on multiple mobile devices
 SEO,Testing SEO optimization,SEO tags are present and correct,"Title, meta description, and keywords should be set correctly",SEO tags found and correct,Pass,SEO meta tags are correct for all pages
+Performance,Testing website performance metrics,First Contentful Paint should be under 2.5 seconds,First Contentful Paint under 2.5 seconds,First Contentful Paint at 0.9 seconds,Pass,Performance score is 83, indicating good performance
+Performance,Testing website performance metrics,Total Blocking Time should be under 200 ms,Total Blocking Time under 200 ms,Total Blocking Time at 130 ms,Pass,Performance score is 83, indicating good performance
+Performance,Testing website performance metrics,Speed Index should be under 4.3 seconds,Speed Index under 4.3 seconds,Speed Index at 2.6 seconds,Pass,Performance score is 83, indicating good performance
+Performance,Testing website performance metrics,Largest Contentful Paint should be under 4 seconds,Largest Contentful Paint under 4 seconds,Largest Contentful Paint at 4.6 seconds,Fail,Performance score is 83, indicating room for improvement in this area
+Accessibility,Testing website accessibility,Accessibility score should be above 90,Accessibility score above 90,Accessibility score at 88,Fail,Accessibility score is 88, indicating some areas need improvement
+Best Practices,Testing website best practices,Best Practices score should be 100,Best Practices score at 100,Best Practices score at 100,Pass,Best Practices score is perfect
+SEO,Testing SEO optimization,SEO score should be 100,SEO score at 100,SEO score at 100,Pass,SEO score is perfect
