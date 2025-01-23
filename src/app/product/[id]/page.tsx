@@ -1,14 +1,22 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { useParams } from 'next/navigation'
-import { client } from '@/sanity/lib/client'
-import { urlFor } from '@/sanity/lib/image'
-import { useCounter } from '../../contexts/CartCounter'
-import toast from 'react-hot-toast'
-import { Star, StarHalf, Minus, Plus, Facebook, Linkedin, Twitter } from 'lucide-react'
-import Link from 'next/link'
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { client } from "@/sanity/lib/client";
+import { urlFor } from "@/sanity/lib/image";
+import { useCounter } from "../../contexts/CartCounter";
+import toast from "react-hot-toast";
+import {
+  Star,
+  StarHalf,
+  Minus,
+  Plus,
+  Facebook,
+  Linkedin,
+  Twitter,
+} from "lucide-react";
+import Link from "next/link";
 
 interface SanityImage {
   _type: string;
@@ -46,21 +54,21 @@ interface Product {
 }
 
 export default function ProductDetails() {
-  const [product, setProduct] = useState<Product | null>(null)
-  const [selectedSize, setSelectedSize] = useState('L')
-  const [selectedColor, setSelectedColor] = useState('purple')
-  const [quantity, setQuantity] = useState(1)
-  const { id } = useParams()
-  const { addToCart, getCartCount } = useCounter()
+  const [product, setProduct] = useState<Product | null>(null);
+  const [selectedSize, setSelectedSize] = useState("L");
+  const [selectedColor, setSelectedColor] = useState("purple");
+  const [quantity, setQuantity] = useState(1);
+  const { id } = useParams();
+  const { addToCart, getCartCount } = useCounter();
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const query = `*[_type == "product" && _id == $id][0]`
-      const fetchedProduct = await client.fetch(query, { id })
-      setProduct(fetchedProduct)
-    }
-    fetchProduct()
-  }, [id])
+      const query = `*[_type == "product" && _id == $id][0]`;
+      const fetchedProduct = await client.fetch(query, { id });
+      setProduct(fetchedProduct);
+    };
+    fetchProduct();
+  }, [id]);
 
   const handleAddToCart = () => {
     if (product) {
@@ -69,28 +77,35 @@ export default function ProductDetails() {
         name: product.name,
         price: product.price,
         quantity: quantity,
-        image: urlFor(product.image).url()  
-      })
-      getCartCount()
-      toast.success(`${quantity} ${product.name}${quantity > 1 ? 's' : ''} added to cart`, {
-        style: {
-          background: '#B88E2F',
-          color: '#fff',
-        },
-      })
+        image: urlFor(product.image).url(),
+      });
+      getCartCount();
+      toast.success(
+        `${quantity} ${product.name}${quantity > 1 ? "s" : ""} added to cart`,
+        {
+          style: {
+            background: "#B88E2F",
+            color: "#fff",
+          },
+        }
+      );
     }
-  }
+  };
 
-  const handleQuantityChange = (action: 'increase' | 'decrease') => {
-    if (action === 'increase') {
-      setQuantity(prev => prev + 1)
-    } else if (action === 'decrease' && quantity > 1) {
-      setQuantity(prev => prev - 1)
+  const handleQuantityChange = (action: "increase" | "decrease") => {
+    if (action === "increase") {
+      setQuantity((prev) => prev + 1);
+    } else if (action === "decrease" && quantity > 1) {
+      setQuantity((prev) => prev - 1);
     }
-  }
+  };
 
   if (!product) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -111,9 +126,13 @@ export default function ProductDetails() {
 
         {/* Right Side - Product Details */}
         <div className="lg:w-1/2">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium mb-4 sm:mb-6">{product.name}</h1>
-          <p className="text-xl sm:text-2xl lg:text-3xl font-medium mb-4 sm:mb-6">Rs. {product.price.toLocaleString()}.00</p>
-          
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-medium mb-4 sm:mb-6">
+            {product.name}
+          </h1>
+          <p className="text-xl sm:text-2xl lg:text-3xl font-medium mb-4 sm:mb-6">
+            Rs. {product.price.toLocaleString()}.00
+          </p>
+
           {/* Rating */}
           <div className="flex items-center gap-2 sm:gap-4 mb-4 sm:mb-6">
             <div className="flex items-center text-yellow-400">
@@ -123,7 +142,9 @@ export default function ProductDetails() {
               <Star className="fill-current w-4 h-4 sm:w-5 sm:h-5" />
               <StarHalf className="fill-current w-4 h-4 sm:w-5 sm:h-5" />
             </div>
-            <span className="text-gray-600 text-sm sm:text-base">5 Customer Review</span>
+            <span className="text-gray-600 text-sm sm:text-base">
+              5 Customer Review
+            </span>
           </div>
 
           {/* Description */}
@@ -135,14 +156,15 @@ export default function ProductDetails() {
           <div className="mb-4 sm:mb-6">
             <h3 className="text-base sm:text-lg mb-2 sm:mb-3">Size</h3>
             <div className="flex gap-2 sm:gap-4">
-              {['L', 'XL', 'XS'].map((size) => (
+              {["L", "XL", "XS"].map((size) => (
                 <button
                   key={size}
                   onClick={() => setSelectedSize(size)}
                   className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-lg transition-colors text-sm sm:text-base
-                    ${selectedSize === size 
-                      ? 'bg-[#B88E2F] text-white' 
-                      : 'bg-[#F9F1E7] hover:bg-[#B88E2F] hover:text-white'
+                    ${
+                      selectedSize === size
+                        ? "bg-[#B88E2F] text-white"
+                        : "bg-[#F9F1E7] hover:bg-[#B88E2F] hover:text-white"
                     }`}
                 >
                   {size}
@@ -156,15 +178,15 @@ export default function ProductDetails() {
             <h3 className="text-base sm:text-lg mb-2 sm:mb-3">Color</h3>
             <div className="flex gap-2 sm:gap-4">
               {[
-                { name: 'purple', class: 'bg-purple-500' },
-                { name: 'black', class: 'bg-black' },
-                { name: 'brown', class: 'bg-[#B88E2F]' }
+                { name: "purple", class: "bg-purple-500" },
+                { name: "black", class: "bg-black" },
+                { name: "brown", class: "bg-[#B88E2F]" },
               ].map((color) => (
                 <button
                   key={color.name}
                   onClick={() => setSelectedColor(color.name)}
                   className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full ${color.class} transition-transform
-                    ${selectedColor === color.name ? 'scale-125 ring-2 ring-offset-2 ring-gray-300' : ''}
+                    ${selectedColor === color.name ? "scale-125 ring-2 ring-offset-2 ring-gray-300" : ""}
                   `}
                 />
               ))}
@@ -174,21 +196,23 @@ export default function ProductDetails() {
           {/* Quantity and Actions */}
           <div className="flex flex-col sm:flex-row gap-4 mb-6 sm:mb-8">
             <div className="flex items-center border rounded-lg">
-              <button 
-                onClick={() => handleQuantityChange('decrease')}
+              <button
+                onClick={() => handleQuantityChange("decrease")}
                 className="px-3 sm:px-4 py-2 hover:bg-gray-100"
               >
                 <Minus size={16} className="sm:w-5 sm:h-5" />
               </button>
-              <span className="px-4 sm:px-6 py-2 text-sm sm:text-base">{quantity}</span>
-              <button 
-                onClick={() => handleQuantityChange('increase')}
+              <span className="px-4 sm:px-6 py-2 text-sm sm:text-base">
+                {quantity}
+              </span>
+              <button
+                onClick={() => handleQuantityChange("increase")}
                 className="px-3 sm:px-4 py-2 hover:bg-gray-100"
               >
                 <Plus size={16} className="sm:w-5 sm:h-5" />
               </button>
             </div>
-            <button 
+            <button
               onClick={handleAddToCart}
               className="px-6 sm:px-8 py-2 bg-white border-2 border-[#B88E2F] text-[#B88E2F] hover:bg-[#B88E2F] hover:text-white transition-colors rounded-lg text-sm sm:text-base"
             >
@@ -228,6 +252,5 @@ export default function ProductDetails() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

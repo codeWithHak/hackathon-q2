@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { X } from 'lucide-react';
+import { X } from "lucide-react";
 import Link from "next/link";
 import { useCounter } from "../contexts/CartCounter";
+import { Button } from "@/components/ui/button";
 
 interface CartMenuProps {
   onClose: () => void;
@@ -42,7 +43,7 @@ export default function CartMenu({ onClose }: CartMenuProps) {
               <div key={item.id} className="flex gap-4 py-4 border-t">
                 <div className="relative w-24 h-24 bg-[#FFF9F3] rounded-lg overflow-hidden flex-shrink-0">
                   <Image
-                    src={item.image}
+                    src={item.image || "/placeholder.svg"}
                     alt={item.name}
                     fill
                     className="object-cover"
@@ -52,7 +53,7 @@ export default function CartMenu({ onClose }: CartMenuProps) {
                 <div className="flex-grow">
                   <div className="flex justify-between items-start">
                     <h3 className="font-medium">{item.name}</h3>
-                    <button 
+                    <button
                       className="text-gray-400 hover:text-gray-600"
                       onClick={() => removeFromCart(item.id)}
                     >
@@ -83,20 +84,37 @@ export default function CartMenu({ onClose }: CartMenuProps) {
           </span>
         </div>
 
-        {/* Action buttons */}
-        <div className="grid grid-cols-3 gap-4 mt-7">
-          <Link href='/cart'>
-            <button className="w-full text-sm py-2 px-4" onClick={onClose}>Cart</button>
+        {/* Action Buttons */}
+        <div className="grid grid-cols-3 gap-4 mt-6">
+          <Link href="/cart" passHref>
+            <Button
+              variant="outline"
+              className="w-full text-sm py-2 px-4"
+              onClick={onClose}
+            >
+              Cart
+            </Button>
           </Link>
-          <Link href='/checkout'>
-            <button className="w-full text-sm py-2 px-4" onClick={onClose}>Checkout</button>
+          <Link href="/checkout" passHref>
+            <Button
+              variant="outline"
+              className="w-full text-sm py-2 px-4"
+              onClick={onClose}
+            >
+              Checkout
+            </Button>
           </Link>
-          {/* <Link href='/comparison'>
-            <button className="w-full text-sm py-2 px-4" onClick={onClose}>Comparison</button>
-          </Link> */}
+          <Link href="/comparison" passHref>
+            <Button
+              variant="outline"
+              className="w-full text-sm py-2 px-4"
+              onClick={onClose}
+            >
+              Comparison
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
   );
 }
-
